@@ -5,6 +5,11 @@ import NavBar from "./Components/NavBar";
 import Footer from "./Components/Footer";
 import HomePage from './Pages/HomePage';
 import PokemonSpec from './Pages/PokemonSpec';
+import "./styles/footer.css";
+import "./styles/homePage.css";
+import "./styles/navbar.css";
+import "./styles/pokeCard.css";
+import "./styles/pokemonSpec.css";
 
 function App() {
   

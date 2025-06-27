@@ -24,12 +24,16 @@ const PokeCard = ({ pokeName }) => {
   }, []);
 
   return <>
-      <Card border="primary" style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={pokePicture} />
+      <Card style={{ 
+        width: "16rem", 
+        border:"1px solid #58595b", 
+        boxShadow:"5px 5px 10px #58595b",
+        }}>
+        <Card.Img src={pokePicture}/>
         <Card.Body>
           <Card.Title>{pokeName.name.toUpperCase()}</Card.Title>
           <Card.Text className="text-truncate-bis">
-            <strong>Ordre</strong> : {pokeInfos.order}
+            <strong>Ordre</strong> : {pokeInfos.id}
             <br />
             <strong>Taille</strong> : {pokeInfos.height / 10} m
             <br />

@@ -51,13 +51,13 @@ const PokemonSpec = () => {
                         {types.map((type) => {
                             return (<span 
                                 key={type.name} 
-                                style= {{color : typeColors[type.type.name],
-                                    border: '1px, solid, typeColors[type.type.name]',
-                                    borderRadius: '5px',
-                                    padding:'5px'
+                                style= {{border: '1px, solid, typeColors[type.type.name]',
+                                  color : typeColors[type.type.name],
+                                  borderRadius: '5px',
+                                  padding:'5px'
                                 }}                                                         
                                 pokeName={type}>
-                                <strong>{type.type.name}</strong> 
+                                <strong>{type.type.name.toUpperCase()}</strong> 
                             </span>)    
                         })}
                     </Stack>

@@ -45,7 +45,7 @@ const PokemonSpec = () => {
                 <p><strong>Poids</strong> : {pokemonSpecs.weight / 10}kg</p>
             </div>
             <div className="d-flex flex-row align-items-center justify-content-center">
-                <img src={sprites} className="card-img-top" style={{ width: '26rem' }} />
+                <img src={sprites} className="imageSpec card-img-top" style={{ width: '26rem' }} />
                 <div>
                     <Stack direction="horizontal" gap={2} className="mb-2">
                         {types.map((type) => {

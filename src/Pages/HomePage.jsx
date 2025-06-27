@@ -40,7 +40,7 @@ const HomePage = () => {
 
         <input 
             type="text"
-            className="searchBar form-control col-8 mb-5 mt-2" 
+            className="searchBar form-control col-4 mb-5 mt-2" 
             placeholder="Recherche un pokemon"
             value={search}
             onChange={handleSetSearch}
@@ -52,7 +52,7 @@ const HomePage = () => {
             })}
         </div>
 
-        <div className='pageButton d-flex justify-content-between align-items-center mt-4' >
+        <div className='pageButton d-flex justify-content-between align-items-center mt-4 mb-5' >
             <button className='previousButton btn btn-primary' 
                 onClick={() => 
                 setPage(page-20)} disabled={page === 0}>Previous</button>

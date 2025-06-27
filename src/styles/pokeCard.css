@@ -1,0 +1,14 @@
+.pokeCard{
+  width: 16rem;
+  border: 1px solid #58595b ; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pokeCard:hover{
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px #5D5E60 ;
+}
+
+.cardImage{
+  background-color: #2a2a2a;
+}

@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
+import typeColors from "../utils/typeColors";
 
 const PokeCard = ({ pokeName }) => {
   const [pokePicture, setPokePicture] = useState([]);
   const [pokeInfos, setPokeInfos] = useState([]);
+  const [types, setTypes] = useState([]);
 
   const fetchPokePicture = async () => {
     try {
@@ -15,6 +17,8 @@ const PokeCard = ({ pokeName }) => {
       );
       setPokePicture(response.data.sprites.other["home"].front_default);
       setPokeInfos(response.data);
+      setTypes(response.data.types);
+      
     } catch (error) {
       console.error("error fetching pokePicture:", error);
     }
@@ -24,13 +28,9 @@ const PokeCard = ({ pokeName }) => {
   }, []);
 
   return <>
-      <Card style={{ 
-        width: "16rem", 
-        border:"1px solid #58595b", 
-        boxShadow:"5px 5px 10px #58595b",
-        }}>
-        <Card.Img src={pokePicture}/>
-        <Card.Body>
+      <Card className = "pokeCard">
+        <Card.Img className = 'cardImage'  src={pokePicture}/>
+        <Card.Body >
           <Card.Title>{pokeName.name.toUpperCase()}</Card.Title>
           <Card.Text className="text-truncate-bis">
             <strong>Ordre</strong> : {pokeInfos.id}

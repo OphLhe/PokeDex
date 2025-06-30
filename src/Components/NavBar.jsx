@@ -8,7 +8,7 @@ const NavBar = () => {
     const navigate= useNavigate();
 
   return <>
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary" >
       <Container>
         <Navbar.Brand onClick={()=>{navigate('/')}}>PokeDex</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

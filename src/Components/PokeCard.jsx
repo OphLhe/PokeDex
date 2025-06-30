@@ -28,6 +28,7 @@ const PokeCard = ({ pokeName }) => {
   }, []);
 
   return <>
+    <Link className="linkPokeCard" to={`/pokemon/${pokeName.name}`}>
       <Card className = "pokeCard">
         <Card.Img className = 'cardImage'  src={pokePicture}/>
         <Card.Body >
@@ -39,12 +40,12 @@ const PokeCard = ({ pokeName }) => {
             <br />
             <strong>Poids</strong> : {pokeInfos.weight / 10} kg
           </Card.Text>
-          <Link to={`/pokemon/${pokeName.name}`}>
             <Button variant="primary">More details</Button>
-          </Link>
         </Card.Body>
       </Card>
-    </>
+    </Link>
+    
+  </>
 };
 
 export default PokeCard;

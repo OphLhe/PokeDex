@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ListGroup, ProgressBar } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Stack from 'react-bootstrap/Stack';
 import typeColors from "../utils/typeColors";
+import EvolveCard from "../Components/EvolveCard";
 
 const PokemonSpec = () => {
   const [pokemonSpecs, setPokemonSpec] = useState([]);
@@ -11,25 +12,59 @@ const PokemonSpec = () => {
   const [sprites, setSprites] = useState([]);
   const [stats, setStats] = useState([]);
   const [types, setTypes] = useState([]);
+  const [evolves, setEvolve] = useState([]);
+  const [url, setGetUrl] = useState("");
 
   const fetchPokemonSpec = async () => {
     try {
-      const response = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${name}`
-      );
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
       setPokemonSpec(response.data);
       setSprites(response.data.sprites.other["home"].front_default);
       setStats(response.data.stats);
       setTypes(response.data.types);
-      console.log(response.data.types[0].type.name);
+
     } catch (error) {
       console.error("Error fetching pokemon specifications:", error);
     }
   };
 
+  const fetchEvolve = async () => {
+    try {
+      const resEvolve = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+      const getUrl = await axios.get(resEvolve.data.evolution_chain.url)
+      setGetUrl(getUrl.data.chain)
+      console.log(getUrl.data.chain.evolves_to[0].species.name);
+      const evoNames = extractEvolve(getUrl.data.chain)
+      console.log(evoNames);
+      setEvolve(evoNames)  
+    } catch (error) {
+      console.error("Error fetching pokemon specifications:", error);
+    }
+  }
+
+  // fonction pour extraire les noms des évolutions à partir de la chaine d'évolution 
+  const extractEvolve = (chain) => {
+    // si la chaine d'évolution est vide, on retourne un tableau vide
+    const names = [];
+    // si la chaine d'évolution n'existe pas on retourne un tableau vide
+    let current = chain 
+     // on ajoute le nom de la premire espece
+    do {
+      // on récupère le nom
+      names.push(current.species.name)
+      // si l'espèce évolue, on ajoute le nom de l'évolution
+      current = current.evolves_to[0]
+      // on continue jusqu'a ce qu'il n'y ait plus d'évolutions
+    }while (current && current.species)
+
+      return names      
+  }
+
   useEffect(() => {
     fetchPokemonSpec();
-  }, []);
+    fetchEvolve()
+  }, [name]);
+
 
   return (
     <>
@@ -40,7 +75,7 @@ const PokemonSpec = () => {
                 <strong>{name.toUpperCase()}</strong>
             </h3>
             <div className="d-flex flex-row justify-content-center align-items-center gap-3 mt-3">
-                <p><strong>Ordre</strong> : {pokemonSpecs.order}</p>
+                <p><strong>Ordre</strong> : {pokemonSpecs.id}</p>
                 <p><strong>Taille</strong> : {pokemonSpecs.height / 10}m</p>
                 <p><strong>Poids</strong> : {pokemonSpecs.weight / 10}kg</p>
             </div>
@@ -56,7 +91,7 @@ const PokemonSpec = () => {
                                   borderRadius: '5px',
                                   padding:'5px'
                                 }}                                                         
-                                pokeName={type}>
+                                >
                                 <strong>{type.type.name.toUpperCase()}</strong> 
                             </span>)    
                         })}
@@ -64,7 +99,7 @@ const PokemonSpec = () => {
                         <div className="card-body ">
                             <ListGroup  style={{ width: '26rem' }}>
                                 {stats.map((stat) => {
-                                    return (<ListGroup.Item key={stat.name} pokeName={stat}>
+                                    return (<ListGroup.Item key={stat.name} pokename={stat}>
                                     <strong>{stat.stat.name.toUpperCase()}</strong>
                                     <ProgressBar
                                         now={stat.base_stat}
@@ -76,12 +111,18 @@ const PokemonSpec = () => {
                                     );
                                 })}
                             </ListGroup>
-                        </div>
+                      </div>
                 </div>
+            </div> 
+            <div className="d-flex flex-row align-items-center justify-content-center mt-5 mb-5 gap-5">  
+              {evolves.map((evolve) => {
+                return <Link to={`/pokemon/${evolve}`} style={{textDecoration:'none'}}> <EvolveCard key={evolve.name} name={evolve}/></Link>
+              })}          
             </div>
         </div>
     </>
   );
-};
+}
+
 
 export default PokemonSpec;

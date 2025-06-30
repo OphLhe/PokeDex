@@ -1,0 +1,17 @@
+.linkEvolveCard{
+    text-decoration: none;
+}
+
+.evolveCard{
+    width: 8rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.evolveCard:hover{
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px #5D5E60 ;
+}
+
+.cardTitle{
+    font-size: small;
+}

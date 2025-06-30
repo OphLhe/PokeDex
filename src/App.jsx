@@ -10,6 +10,7 @@ import "./styles/homePage.css";
 import "./styles/navbar.css";
 import "./styles/pokeCard.css";
 import "./styles/pokemonSpec.css";
+import "./styles/evolveCard.css";
 
 function App() {
   

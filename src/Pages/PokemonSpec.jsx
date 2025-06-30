@@ -84,7 +84,7 @@ const PokemonSpec = () => {
                 <div>
                     <Stack direction="horizontal" gap={2} className="mb-2">
                         {types.map((type) => {
-                            return (<span 
+                            return (<span   
                                 key={type.name} 
                                 style= {{border: '1px, solid, typeColors[type.type.name]',
                                   color : typeColors[type.type.name],
@@ -111,7 +111,7 @@ const PokemonSpec = () => {
                                     );
                                 })}
                             </ListGroup>
-                      </div>
+                         </div>
                 </div>
             </div> 
             <div className="d-flex flex-row align-items-center justify-content-center mt-5 mb-5 gap-5">  

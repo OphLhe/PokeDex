@@ -35,7 +35,7 @@ const HomePage = () => {
     
 
     return <>
-    <div className='d-flex flex-column align-items-center justify-content-center m-4'>
+    <div className='d-flex flex-column align-items-center justify-content-center m-3'>
         <h1>Home Page</h1>
 
         <input 
@@ -46,17 +46,17 @@ const HomePage = () => {
             onChange={handleSetSearch}
         />
 
-        <div className='d-flex flex-wrap justify-content-around align-content-center gap-3 col-5'>
+        <div className='d-flex flex-wrap justify-content-around align-content-center gap-2 col-6'>
             {pokemons.map((pokemon) => {
                 return <PokeCard key={pokemon.name} pokeName={pokemon}/>
             })}
         </div>
 
-        <div className='pageButton d-flex justify-content-between align-items-center mt-4 mb-5' >
+        <div className='pageButton d-flex justify-content-between align-items-center mb-5 mt-5 col-5' >
             <button className='previousButton btn btn-primary' 
                 onClick={() => 
                 setPage(page-20)} disabled={page === 0}>Previous</button>
-                <span className="pagination">{page}</span>
+                
             <button className='nextButton btn btn-primary' 
                 onClick={() => 
                 setPage(page+20)}>Next</button>   

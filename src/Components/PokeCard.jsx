@@ -23,13 +23,18 @@ const PokeCard = ({ pokeName }) => {
       console.error("error fetching pokePicture:", error);
     }
   };
+
   useEffect(() => {
     fetchPokePicture();
   }, []);
 
+  const mainType = types[0]?.type.name || 'normal'
+  const backgroundColor = typeColors[mainType] || "#ccc"
+
   return <>
     <Link className="linkPokeCard" to={`/pokemon/${pokeName.name}`}>
-      <Card className = "pokeCard">
+      <Card className = "pokeCard"
+      style={{backgroundColor: backgroundColor}}>
         <Card.Img className = 'cardImage'  src={pokePicture}/>
         <Card.Body >
           <Card.Title>{pokeName.name.toUpperCase()}</Card.Title>
@@ -40,7 +45,6 @@ const PokeCard = ({ pokeName }) => {
             <br />
             <strong>Poids</strong> : {pokeInfos.weight / 10} kg
           </Card.Text>
-            <Button variant="primary">More details</Button>
         </Card.Body>
       </Card>
     </Link>

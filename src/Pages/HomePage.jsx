@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PokeCard from '../Components/PokeCard'
+import { Button } from "react-bootstrap";
 
 const HomePage = () => {
     
@@ -36,7 +37,7 @@ const HomePage = () => {
 
     return <>
     <div className='d-flex flex-column align-items-center justify-content-center m-3'>
-        <h1>Home Page</h1>
+        <h1>Accueil</h1>
 
         <input 
             type="text"
@@ -53,13 +54,13 @@ const HomePage = () => {
         </div>
 
         <div className='pageButton d-flex justify-content-between align-items-center mb-5 mt-5 col-5' >
-            <button className='previousButton btn btn-primary' 
+            <Button className='previousButton btn btn-primary' 
                 onClick={() => 
-                setPage(page-20)} disabled={page === 0}>Previous</button>
+                setPage(page-20)} disabled={page === 0}>Previous</Button>
                 
-            <button className='nextButton btn btn-primary' 
+            <Button className='nextButton btn btn-primary' 
                 onClick={() => 
-                setPage(page+20)}>Next</button>   
+                setPage(page+20)}>Next</Button>   
         </div>
     </div>
     </>;

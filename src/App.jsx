@@ -11,6 +11,11 @@ import "./styles/navbar.css";
 import "./styles/pokeCard.css";
 import "./styles/pokemonSpec.css";
 import "./styles/evolveCard.css";
+import RegisterPage from './Pages/RegisterPage';
+import LoginPage from './Pages/LoginPage';
+import ProfilePage from './Pages/ProfilePage'
+import TeamPage from './Pages/TeamPage'
+
 
 function App() {
   
@@ -21,6 +26,10 @@ function App() {
         <Routes>
           <Route path ='/' element = {<HomePage/>}/>
           <Route path ='/pokemon/:name' element = {<PokemonSpec/>}/>
+          <Route path = '/register' element ={<RegisterPage/>}/>
+          <Route path = '/login' element ={<LoginPage/>}/>
+          <Route path = '/profile' element ={<ProfilePage/>}/>
+          <Route path = '/team' element ={<TeamPage/>}/>
         </Routes>
         <Footer/>
     </BrowserRouter>

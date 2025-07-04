@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 const Footer = () => {
 
   return <>
-    <Navbar className="bg-body-tertiary" fixed='bottom'>
+    <Navbar className="bg-body-tertiary" fixed='bottom' expand="lg" height="10%"> 
       <Container>
         <Navbar.Brand href="#home">PokeDex</Navbar.Brand>
         <Navbar.Toggle />

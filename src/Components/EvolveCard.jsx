@@ -10,9 +10,7 @@ const fetchEvolve = async ()=>{
 
     try {
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-        setEvoPicture(response.data.sprites.other["home"].front_default);
-        console.log(response);
-        
+        setEvoPicture(response.data.sprites.other["home"].front_default);        
     } catch (error) {
         console.error("Error fetching pokemon specifications:", error);
     }

@@ -8,6 +8,9 @@ const PokeCard = ({ pokeName }) => {
   const [pokePicture, setPokePicture] = useState([]);
   const [pokeInfos, setPokeInfos] = useState([]);
   const [types, setTypes] = useState([]);
+  const [frenchName, setFrenchName] = useState(true);
+
+  
 
   const fetchPokePicture = async () => {
     try {
@@ -17,14 +20,24 @@ const PokeCard = ({ pokeName }) => {
       setPokePicture(response.data.sprites.other["home"].front_default);
       setPokeInfos(response.data);
       setTypes(response.data.types);
-      
     } catch (error) {
       console.error("error fetching pokePicture:", error);
     }
   };
 
+  const fetchFrenchName = async () => {
+    try {
+      const resFrench = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${pokeName.name}`);
+      setFrenchName(resFrench.data.names[4].name);
+      console.log("resFrench", resFrench.data.names[4].name);
+    } catch (error) {
+      console.error("error fetching french name:", error);
+    }
+  }
+
   useEffect(() => {
     fetchPokePicture();
+    fetchFrenchName();
   }, []);
 
   const mainType = types[0]?.type.name || 'normal'
@@ -36,7 +49,7 @@ const PokeCard = ({ pokeName }) => {
       style={{backgroundColor: backgroundColor}}>
         <Card.Img className = 'cardImage'  src={pokePicture}/>
         <Card.Body >
-          <Card.Title>{pokeName.name.toUpperCase()}</Card.Title>
+          <Card.Title>{frenchName}</Card.Title>
           <Card.Text className="text-truncate-bis">
             <strong>Ordre</strong> : {pokeInfos.id}
             <br />

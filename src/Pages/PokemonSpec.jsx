@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import Stack from "react-bootstrap/Stack";
 import typeColors from "../utils/typeColors";
 import EvolveCard from "../Components/EvolveCard";
-import { chooseTeams, addPokemonToTeam} from "../services/teamService";
+import { chooseTeams, addPokemonToTeam } from "../services/teamService";
 
 const PokemonSpec = () => {
   const [pokemonSpecs, setPokemonSpec] = useState([]);
@@ -19,6 +19,7 @@ const PokemonSpec = () => {
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("");
   const [frenchName, setFrenchName] = useState(true);
+  const token = localStorage.getItem("token");
 
   const fetchPokemonSpec = async () => {
     try {
@@ -81,12 +82,12 @@ const PokemonSpec = () => {
   const handleAddPokemonToTeam = async (e) => {
     e.preventDefault();
     try {
-      await addPokemonToTeam(selectedTeam,{ pokemonName: name });
+      await addPokemonToTeam(selectedTeam, { pokemonName: name });
       setModalAddTeam(false);
       alert("Pokemon ajouté à l'équipe avec succès !");
     } catch (error) {
-      console.error("Error adding pokemon to team:", error);    
-      alert("Erreur lors de l'ajout du pokemon à l'équipe.");  
+      console.error("Error adding pokemon to team:", error);
+      alert("Erreur lors de l'ajout du pokemon à l'équipe.");
     }
   };
 
@@ -115,71 +116,66 @@ const PokemonSpec = () => {
             <strong>Poids</strong> : {pokemonSpecs.weight / 10}kg
           </p>
         </div>
-        <div className="d-flex flex-row align-items-center justify-content-center">
+        <div className="d-flex flex-row align-items-end justify-content-center gap-3 mb-5">
           <img
             src={sprites}
             className="imageSpec card-img-top"
-            style={{ width: "26rem" }}
+            style={{ width: "18rem" }}
           />
-          <div>
-            <div className="typesEtAddTeam d-flex flex-row align-items-center justify-content-between">
-              <Stack direction="horizontal" gap={2} className="mb-2">
-                {types.map((type) => {
-                  return (
-                    <span
-                      key={type.name}
-                      style={{
-                        border: "1px, solid, typeColors[type.type.name]",
-                        color: typeColors[type.type.name],
-                        borderRadius: "5px",
-                        padding: "5px",
-                      }}
+          <div className="typesEtAddTeam d-flex flex-column align-items-center">
+            <Stack direction="horizontal" gap={2} className="mb-3">
+              {types.map((type) => {
+                return (
+                  <span
+                    key={type.name}
+                    style={{
+                      border: `1px solid ${typeColors[type.type.name]}`,
+                      color: typeColors[type.type.name],
+                      borderRadius: "5px",
+                      padding: "5px",
+                    }}
+                  >
+                    <strong>{type.type.name.toUpperCase()}</strong>
+                  </span>
+                );
+              })}
+            </Stack>
+
+            <Modal show={modalAddTeam} onHide={() => setModalAddTeam(false)}>
+              <Form onSubmit={handleAddPokemonToTeam}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Ajout d'un pokemon dans une équipe</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form.Group>
+                    <Form.Label>Nom d’équipe</Form.Label>
+                    <Form.Select
+                      value={selectedTeam}
+                      onChange={(e) => setSelectedTeam(e.target.value)}
                     >
-                      <strong>{type.type.name.toUpperCase()}</strong>
-                    </span>
-                  );
-                })}
-              </Stack>
-              <Button
-                className="mb-3"
-                variant="primary"
-                onClick={() => setModalAddTeam(true)}>
-                Ajouter à l'équipe
-              </Button>
-              <Modal show={modalAddTeam} onHide={() => setModalAddTeam(false)}>
-                <Form onSubmit={handleAddPokemonToTeam}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Ajout d'un pokemon dans une équipe</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form.Group>
-                      <Form.Label>Nom d’équipe</Form.Label>
-                      <Form.Select
-                        value={selectedTeam}
-                        onChange={(e) =>
-                          setSelectedTeam(e.target.value)}>
-                        <option value="">Sélectionner une équipe</option>
-                        {teams.map((index) => (
-                          <option key={index.id} value={index.idTeams}>
-                            {index.teamName}
-                          </option>
-                        ))};
-                        </Form.Select>
-                    </Form.Group>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button
-                      variant="secondary"
-                      onClick={() => setModalAddTeam(false)}>
-                      Annuler
-                    </Button>
-                    <Button type="submit" variant="primary">
-                      Ajouter
-                    </Button>
-                  </Modal.Footer>
-                </Form>
-              </Modal>
-            </div>
+                      <option value="">Sélectionner une équipe</option>
+                      {teams.map((index) => (
+                        <option key={index.id} value={index.idTeams}>
+                          {index.teamName}
+                        </option>
+                      ))}
+                      ;
+                    </Form.Select>
+                  </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setModalAddTeam(false)}
+                  >
+                    Annuler
+                  </Button>
+                  <Button type="submit" variant="primary">
+                    Ajouter
+                  </Button>
+                </Modal.Footer>
+              </Form>
+            </Modal>
             <div className="card-body ">
               <ListGroup style={{ width: "26rem" }}>
                 {stats.map((stat) => {
@@ -199,17 +195,31 @@ const PokemonSpec = () => {
             </div>
           </div>
         </div>
-        <div className="d-flex flex-row align-items-center justify-content-center mt-5 mb-5 gap-5">
-          {evolves.map((evolve) => {
-            return (
-              <Link
-                to={`/pokemon/${evolve}`}
-                style={{ textDecoration: "none" }}>
-                <EvolveCard key={evolve.name} name={evolve} />
-              </Link>
-            );
-          })}
-        </div>
+
+        {token ? (
+          <>
+            <Button
+              className="mb-3 d-flex justify-content-center"
+              style={{ width: "26rem" }}
+              variant="primary"
+              onClick={() => setModalAddTeam(true)}
+            >
+              Ajouter à l'équipe
+            </Button>
+          </>
+        ) : (
+          <span>Connectez vous pour créer vos équipes</span>
+        )}
+
+      </div>
+      <div className="d-flex flex-row align-items-center justify-content-center mt-5 mb-5 gap-5">
+        {evolves.map((evolve) => {
+          return (
+            <Link to={`/pokemon/${evolve}`} style={{ textDecoration: "none" }}>
+              <EvolveCard key={evolve.name} name={evolve} />
+            </Link>
+          );
+        })}
       </div>
     </>
   );

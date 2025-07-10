@@ -24,3 +24,9 @@ export const showTeams = ()=> API.get('/userTeams', {
         Authorization: `${localStorage.getItem('token')}`
     }   
 })
+
+export const deleteTeam = (idTeams) => API.delete(`/deleteTeam/${idTeams}`, {
+    headers:{
+        Authorization: `${localStorage.getItem('token')}`
+    }
+});

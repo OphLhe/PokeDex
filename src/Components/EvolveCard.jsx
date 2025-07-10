@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 
 const EvolveCard = ({name}) => {
 const [evoPicture, setEvoPicture] = useState([]);
+// const [frenchName, setFrenchName] = useState(true);
 
 const fetchEvolve = async ()=>{
 
@@ -16,9 +17,19 @@ const fetchEvolve = async ()=>{
     }
 
 };
+// const fetchFrenchName = async () => {
+//     try {
+//       const resFrench = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+//       setFrenchName(resFrench.data.names[4].name);
+//       console.log("resFrench", resFrench.data.names[4].name);
+//     } catch (error) {
+//       console.error("error fetching french name:", error);
+//     }
+//   }
 
  useEffect(() => {
     fetchEvolve();
+    // fetchFrenchName();
 }, []);
 
 return <>

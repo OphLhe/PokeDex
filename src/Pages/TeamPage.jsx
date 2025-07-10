@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { createTeams, showTeams } from "../services/teamService";
+import { createTeams, showTeams, deleteTeam } from "../services/teamService";
 import PokeCard from "../Components/PokeCard";
 
 const TeamPage = () => {
   const [modalTeam, setModalTeam] = useState(false);
   const [formTeam, setFormTeam] = useState({ teamName: "" });
   const [teams, setTeams] = useState([]);
-  // const [pokemons, setPokemon] = useState([]);
-
+  const [pokemons, setPokemon] = useState([]);
   const handleCreateTeam = async (e) => {
+    location.reload();
     e.preventDefault();
 
     try {
       const response = await createTeams(formTeam);
       alert("Équipe créée avec succès !");
-      console.log("Equipe créée avec succés:", response.data);
       setModalTeam(false);
       setFormTeam({ teamName: "" });
     } catch (error) {
@@ -27,15 +26,22 @@ const TeamPage = () => {
     try {
       const response = await showTeams();
       setTeams(response.data);
-      // setPokemon(response.data);
-      console.log("Équipes récupérées:", response.data[0].pkm1);
+      setPokemon(response.data);
     } catch (error) {
       console.error("Error fetching teams:", error);
     }
   };
 
-
-
+  const handleDelete = async (idTeams) => {
+    try {
+      await deleteTeam(idTeams);
+      alert("Équipe supprimée avec succès !");
+      location.reload(); 
+    } catch (error) {
+      console.error("Error deleting team:", error);
+      alert("Erreur lors de la suppression de l'équipe.");
+    }
+  }
   useEffect(() => {
     fetchTeams();
   }, []);
@@ -51,7 +57,8 @@ const TeamPage = () => {
           Créer équipe
         </Button>
       </div>
-
+     
+     {/* moda pour créer une équipe  */}
       <Modal show={modalTeam} onHide={() => setModalTeam(false)}>
         <Form onSubmit={handleCreateTeam}>
           <Modal.Header closeButton>
@@ -79,19 +86,25 @@ const TeamPage = () => {
           </Modal.Footer>
         </Form>
       </Modal>
-
-      <div className="d-flex flex-column align-items-center justify-content-center m-3">
-        
+      
         {teams.map((team) => {
-          return <span key={team.idTeams} value={team.idTeams}> 
-          <strong>{team.teamName}</strong>
-            {teams.map((team) => {
-              return <PokeCard key={team.pkm1} pokeName={team} value={team.pkm1}/>
+          return<div className="d-flex flex-wrap flex-column align-items-center justify-content-center m-3 "
+          style={{border:'3px solid red', 
+            borderRadius:'10px', padding:'20px',
+            boxShadow:'0 0 10px #5D5E60'}} >
+            <div className="d-flex flex-row align-items-center justify-content-left m-3" width="100vw"> 
+              <strong className="mb-4">{team.teamName}</strong>
+              <div >
+              <Button className="mb-3" variant="danger" onClick={() => handleDelete(team.idTeams)} >Supprimmer équipe</Button>
+              </div>
+            </div>
+            <div className='d-flex flex-wrap flex-row justify-content-center align-content-center gap-2 mb-5' >
+            {team.pkm.map((pokemon) => {
+              return <PokeCard key={pokemon.id} pokeName={pokemon}/>
           })}
-        </span>
+          </div>
+          </div>
         })}  
-
-      </div>
     </>
   );
 };

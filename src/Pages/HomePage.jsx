@@ -18,7 +18,6 @@ const HomePage = () => {
             }else{
                 const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${search}`);
                 setPokemon(() => [response.data]); 
-                console.log(response.data.name);
             } 
         }catch (error) {
             console.error("error fetching pokemon:", error);            
@@ -31,7 +30,6 @@ const HomePage = () => {
     
     const handleSetSearch = (e) => {
         setSearch(e.target.value);
-        console.log(e.target.value);
     }
     
 
@@ -49,7 +47,7 @@ const HomePage = () => {
 
         <div className='d-flex flex-wrap justify-content-around align-content-center gap-2 col-6'>
             {pokemons.map((pokemon) => {
-                return <PokeCard key={pokemon.name} pokeName={pokemon}/>
+                return <PokeCard key={pokemon.name} pokeName={pokemon.name}/>
             })}
         </div>
 

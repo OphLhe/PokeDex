@@ -10,12 +10,10 @@ const PokeCard = ({ pokeName }) => {
   const [types, setTypes] = useState([]);
   const [frenchName, setFrenchName] = useState(true);
 
-  
-
   const fetchPokePicture = async () => {
     try {
       const response = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${pokeName.name}`
+        `https://pokeapi.co/api/v2/pokemon/${pokeName}`
       );
       setPokePicture(response.data.sprites.other["home"].front_default);
       setPokeInfos(response.data);
@@ -27,9 +25,8 @@ const PokeCard = ({ pokeName }) => {
 
   const fetchFrenchName = async () => {
     try {
-      const resFrench = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${pokeName.name}`);
+      const resFrench = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${pokeName}`);
       setFrenchName(resFrench.data.names[4].name);
-      console.log("resFrench", resFrench.data.names[4].name);
     } catch (error) {
       console.error("error fetching french name:", error);
     }
@@ -44,7 +41,7 @@ const PokeCard = ({ pokeName }) => {
   const backgroundColor = typeColors[mainType] || "#ccc"
 
   return <>
-    <Link className="linkPokeCard" to={`/pokemon/${pokeName.name}`}>
+    <Link className="linkPokeCard" to={`/pokemon/${pokeName}`}>
       <Card className = "pokeCard"
       style={{backgroundColor: backgroundColor}}>
         <Card.Img className = 'cardImage'  src={pokePicture}/>
